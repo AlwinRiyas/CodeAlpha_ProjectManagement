@@ -1,43 +1,25 @@
 # Security Policy
 
-## Supported Version
+## Supported Branch
 
-Security fixes are applied to the latest version on `main`.
+Security fixes should be developed from `development` and reviewed before reaching `main`.
 
-## Reporting a Vulnerability
+## Reporting
 
-Do not open a public issue for a security vulnerability.
+Do not publish credentials, tokens, database URLs with passwords, or exploitable vulnerability details in public issues. Report vulnerabilities privately through GitHub security reporting features.
 
-Instead, report it privately through the repository's GitHub security reporting features with:
+Include a clear description, reproduction steps, affected component, impact, and suggested mitigation. Never include real credentials, tokens, personal data, or production secrets.
 
-- A clear description of the issue
-- Reproduction steps or proof of concept
-- Affected component or endpoint
-- Potential impact
-- Any suggested mitigation
+## Application Controls
 
-Please do not include real credentials, tokens, personal data, or production secrets in a report.
+- Passwords are hashed with bcrypt.
+- JWT-protected routes reject missing or invalid tokens.
+- Project membership is checked before project/task/comment access.
+- Request bodies are validated with Zod.
+- Helmet provides HTTP security headers.
+- Rate limiting protects the API from excessive requests.
+- Socket.IO connections require a valid JWT.
 
-## Security Controls
+## Production Requirements
 
-ProjectFlow currently uses:
-
-- bcrypt password hashing
-- JWT authentication
-- Zod request validation
-- Helmet security headers
-- API rate limiting
-- Project membership authorization
-- Environment-based secrets
-- Restricted CORS configuration
-
-## Deployment Notes
-
-Before production deployment:
-
-1. Replace all development secrets.
-2. Use HTTPS.
-3. Use a managed PostgreSQL instance with restricted network access.
-4. Configure a production-specific `CLIENT_URL`.
-5. Never commit `.env` files or credentials.
-6. Rotate JWT secrets if exposure is suspected.
+Replace development secrets, restrict CORS to the deployed client origin, use HTTPS, use a managed PostgreSQL deployment, rotate secrets when exposure is suspected, and keep dependencies updated.
