@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: projectflow
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - projectflow_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d projectflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    build: ./server
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/projectflow?schema=public
+      JWT_SECRET: change-this-in-production
+      CLIENT_URL: http://localhost:5173
+      PORT: 4000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    command: sh -c "npx prisma db push && npm run db:seed && npm start"
+
+volumes:
+  projectflow_pg:
