@@ -4,6 +4,7 @@ import './styles.css';
 import './design-system.css';
 import './product-ui.css';
 import './navigation.css';
+import './auth-polish.css';
 import App from './App';
 
 createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictMode>);
