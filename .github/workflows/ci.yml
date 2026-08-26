@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, 'feature/**']
+    branches: [main, development, 'feature/**', 'phase-*']
   pull_request:
-    branches: [main]
+    branches: [main, development]
 
 jobs:
   server:
@@ -35,6 +35,7 @@ jobs:
       - run: npx prisma db push
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/projectflow?schema=public
+      - run: npm test
       - run: npm run build
 
   client:
