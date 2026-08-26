@@ -4,5 +4,7 @@ import './styles.css';
 import './design-system.css';
 import './product-ui.css';
 import App from './App';
+import { installProjectFlowNavigation } from './navigation-bridge';
 
 createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictMode>);
+installProjectFlowNavigation();
