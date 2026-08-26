@@ -34,7 +34,7 @@ const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
   } catch { return res.status(401).json({ error: 'Invalid or expired token' }); }
 };
 
-const asyncRoute = (fn: (req: AuthRequest, res: Response) => Promise<void>) => (req: AuthRequest, res: Response, next: NextFunction) => Promise.resolve(fn(req, res)).catch(next);
+const asyncRoute = (fn: (req: AuthRequest, res: Response) => Promise<unknown>) => (req: AuthRequest, res: Response, next: NextFunction) => Promise.resolve(fn(req, res)).catch(next);
 const registerSchema = z.object({ name: z.string().trim().min(2).max(60), email: z.string().email().max(120), password: z.string().min(8).max(72) });
 const loginSchema = z.object({ email: z.string().email(), password: z.string().min(1) });
 const projectSchema = z.object({ name: z.string().trim().min(2).max(80), description: z.string().trim().max(500).optional() });
